@@ -1,14 +1,26 @@
-defmodule CredoDemoPlugin.MixProject do
+defmodule Funused.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :credo_demo_plugin,
-      version: "0.1.2",
-      elixir: "~> 1.6",
+      app: :funused,
+      version: "0.1.0",
+      elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "A demo plugin for Credo",
+      description: "Locating unused functions",
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        coverage: :test,
+        "coverage.html": :test,
+        "coveralls.html": :test,
+        "coveralls.post": :test,
+        "coveralls.detail": :test,
+        "coveralls.github": :test,
+        test: :test,
+        "test.watch": :test
+      ],
       package: package()
     ]
   end
@@ -22,10 +34,10 @@ defmodule CredoDemoPlugin.MixProject do
         "README.md",
         "LICENSE"
       ],
-      maintainers: ["René Föhring"],
+      maintainers: ["Jacek Królikowski"],
       licenses: ["MIT"],
       links: %{
-        "GitHub" => "https://github.com/rrrene/credo_demo_plugin"
+        "GitHub" => "https://github.com/nietaki/funused_credo_plugin"
       }
     ]
   end
@@ -40,7 +52,13 @@ defmodule CredoDemoPlugin.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:credo, ">= 0.0.0"}
+      {:credo, ">= 0.0.0"},
+
+      # test/housekeeping stuff
+      {:dialyxir, ">= 1.0.0", only: [:dev], optional: true, runtime: false},
+      {:ex_doc, ">= 0.18.0", optional: true, only: :dev},
+      {:excoveralls, "~> 0.16", optional: true, only: :test},
+      {:mix_test_watch, ">= 0.5.0", optional: true, runtime: false, only: [:dev, :test]}
     ]
   end
 end

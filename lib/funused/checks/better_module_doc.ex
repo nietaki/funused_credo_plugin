@@ -1,4 +1,4 @@
-defmodule CredoDemoPlugin.BetterModuleDoc do
+defmodule Funused.BetterModuleDoc do
   @moduledoc false
 
   @checkdoc """

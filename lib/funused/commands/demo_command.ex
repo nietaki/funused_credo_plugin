@@ -1,4 +1,4 @@
-defmodule CredoDemoPlugin.DemoCommand do
+defmodule Funused.DemoCommand do
   @moduledoc false
 
   use Credo.CLI.Command
@@ -7,7 +7,7 @@ defmodule CredoDemoPlugin.DemoCommand do
   alias Credo.Execution
 
   def call(exec, _) do
-    castle = Execution.get_plugin_param(exec, CredoDemoPlugin, :castle)
+    castle = Execution.get_plugin_param(exec, Funused, :castle)
 
     UI.puts("By the power of #{castle}!")
 

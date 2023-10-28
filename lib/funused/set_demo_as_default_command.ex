@@ -1,4 +1,4 @@
-defmodule CredoDemoPlugin.SetDemoAsDefaultCommand do
+defmodule Funused.SetDemoAsDefaultCommand do
   use Credo.Execution.Task
 
   alias Credo.CLI.Options

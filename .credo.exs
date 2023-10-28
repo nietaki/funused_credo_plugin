@@ -3,8 +3,8 @@
     %{
       name: "default",
       checks: [
-        {Credo.Check.Readability.ModuleDoc, false},
-        {CredoDemoPlugin.BetterModuleDoc, []}
+        # {Credo.Check.Readability.ModuleDoc, false},
+        # {Funused.BetterModuleDoc, []}
       ]
     }
   ]
