@@ -16,6 +16,7 @@ check:
 	mix test
 	mix format --check-formatted
 	mix coveralls.html --exclude integration --include coveralls_safe
+	mix credo
 	mix docs
 
 .PHONY: coveralls.html
