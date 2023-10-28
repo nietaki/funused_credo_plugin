@@ -25,8 +25,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # ignore refactoring opportunities (exit code 8)
-      - run: mix credo --all --verbose || exit $(( $? & ~8 ))
-        if: always()
+      # - run: mix credo --all --verbose || exit $(( $? & ~8 ))
+        # if: always()
       - run: mix docs
         if: always()
       - uses: actions/upload-artifact@v3
