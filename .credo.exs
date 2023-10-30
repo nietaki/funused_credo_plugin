@@ -31,7 +31,7 @@
           "apps/*/test/",
           "apps/*/web/"
         ],
-        excluded: [~r"/_build/", ~r"/deps/", ~r"/node_modules/"]
+        excluded: [~r"/_build/", ~r"/deps/", ~r"/node_modules/", ~r"/test/samples/"]
       },
       #
       # Load and configure plugins here:
@@ -41,7 +41,8 @@
       # If you create your own checks, you must specify the source files for
       # them here, so they can be loaded by Credo before running the analysis.
       #
-      requires: ["./lib/saner/checks/*.ex"],
+      # requires: ["./lib/saner/checks/**/*.ex"],
+      requires: ["./lib/saner/**/*.ex"],
       #
       # If you want to enforce a style guide and need a more traditional linting
       # experience, you can change `strict` to `true` below:
@@ -66,7 +67,7 @@
       #
       checks: [
         # custom
-        {Saner.Checks.IdentifyUnusedFunctions, []},
+        {Saner.Checks.UnusedFunctions, []},
 
         #
         ## Consistency Checks

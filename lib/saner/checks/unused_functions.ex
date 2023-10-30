@@ -1,4 +1,5 @@
-defmodule Saner.Checks.IdentifyUnusedFunctions do
+defmodule Saner.Checks.UnusedFunctions do
+  alias Saner.Location
   # used for the use below
   @checkdoc """
   This ModuleDoc check is much better than the original one!!!11
@@ -15,11 +16,13 @@ defmodule Saner.Checks.IdentifyUnusedFunctions do
     # return no issues - TODO: implement actual check
     # raise "foo"
 
+    Location.new(1, 2)
+
     IO.inspect(source_file)
     IO.inspect(params)
 
     Credo.Code.prewalk(source_file, fn x, acc ->
-      IO.inspect(x)
+      # IO.inspect(x)
       {x, acc}
     end)
 
