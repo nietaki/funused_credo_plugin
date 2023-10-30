@@ -1,4 +1,4 @@
-defmodule Funused.SetDemoAsDefaultCommand do
+defmodule Saner.SetDemoAsDefaultCommand do
   use Credo.Execution.Task
 
   alias Credo.CLI.Options

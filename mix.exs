@@ -1,14 +1,14 @@
-defmodule Funused.MixProject do
+defmodule Saner.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :funused,
+      app: :saner,
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "Locating unused functions",
+      description: "credo checks to make coding a bit saner",
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,

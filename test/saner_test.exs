@@ -1,6 +1,6 @@
-defmodule FunusedTest do
+defmodule SanerTest do
   use ExUnit.Case
-  doctest Funused
+  doctest Saner
 
   test "sample test" do
     assert true
