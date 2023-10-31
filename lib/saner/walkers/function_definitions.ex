@@ -3,8 +3,12 @@ defmodule Saner.Walkers.FunctionDefinitions do
   alias Saner.Structs.Location
 
   defmodule State do
+    @type t :: %__MODULE__{
+            module_stack: [[atom()]],
+            hits: %{{module(), atom(), integer()} => Location.t()}
+          }
+
     defstruct module_stack: [],
-              cur_module: nil,
               hits: %{}
 
     def new() do
@@ -13,16 +17,29 @@ defmodule Saner.Walkers.FunctionDefinitions do
 
     def push_modules(state, modules) when is_list(modules) do
       %__MODULE__{state | module_stack: [modules | state.module_stack]}
-      |> render_module_stack()
     end
 
     def pop_modules(%__MODULE__{module_stack: [_ | tail]} = state) do
       %__MODULE__{state | module_stack: tail}
-      |> render_module_stack()
     end
 
-    defp render_module_stack(state) do
-      %__MODULE__{state | cur_module: :TODO}
+    def cur_module(%__MODULE__{module_stack: module_stack}) do
+      module_stack
+      |> Enum.reverse()
+      |> Enum.flat_map(& &1)
+      |> Module.concat()
+    end
+
+    def add_hit(state, fun, arities, location) when is_list(arities) do
+      arities
+      |> Enum.reduce(state, fn a, state -> add_hit(state, fun, a, location) end)
+    end
+
+    def add_hit(%__MODULE__{hits: hits} = state, fun, arity, location)
+        when is_atom(fun) and is_integer(arity) do
+      mod = State.cur_module(state)
+      hits = Map.put_new(hits, {mod, fun, arity}, location)
+      %__MODULE__{state | hits: hits}
     end
   end
 
@@ -49,6 +66,9 @@ defmodule Saner.Walkers.FunctionDefinitions do
   # NOTE this doesn't account for guards
   def visit({:def, meta, [{function_name, _, args}, [do: _]]} = ast, state, :pre) do
     IO.puts("#{function_name} is defined with #{inspect(args)}")
+    arity = Enum.count(args)
+    state = State.add_hit(state, function_name, arity, Location.from_meta(meta))
+
     {ast, state}
   end
 

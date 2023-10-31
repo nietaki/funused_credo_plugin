@@ -1,4 +1,4 @@
-defmodule Saner.Location do
+defmodule Saner.Structs.Location do
   defstruct [
     :line,
     :col

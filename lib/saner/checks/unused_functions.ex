@@ -1,5 +1,5 @@
 defmodule Saner.Checks.UnusedFunctions do
-  alias Saner.Location
+  alias Saner.Structs.Location
   # used for the use below
   @checkdoc """
   This ModuleDoc check is much better than the original one!!!11
