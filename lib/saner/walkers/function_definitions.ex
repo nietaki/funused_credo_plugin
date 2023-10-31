@@ -63,19 +63,41 @@ defmodule Saner.Walkers.FunctionDefinitions do
     end
   end
 
-  # NOTE this doesn't account for guards
-  def visit({:def, meta, [{function_name, _, args}, [do: _]]} = ast, state, :pre) do
-    IO.puts("#{function_name} is defined with #{inspect(args)}")
-    arity = Enum.count(args)
-    state = State.add_hit(state, function_name, arity, Location.from_meta(meta))
+  def visit({:def, meta, [{:when, _, [function_head | _guards]}, body]}, state, stage) do
+    visit({:def, meta, [function_head, body]}, state, stage)
+  end
+
+  def visit({:def, meta, [{function_name, _, args} | _]} = ast, state, :pre) do
+    arities = arg_counts(args)
+    state = State.add_hit(state, function_name, arities, Location.from_meta(meta))
 
     {ast, state}
   end
 
+  def visit({:def, _, _} = _ast, _state, :pre) do
+    raise "missed def"
+    # {ast, state}
+  end
+
   def visit(node, acc, stage) do
+    _node = node
+    _stage = stage
     # IO.inspect(node)
     # IO.inspect(stage)
     # IO.puts "NOP"
     {node, acc}
+  end
+
+  defp arg_counts(args) when is_list(args) do
+    {min, max} =
+      Enum.reduce(args, {0, 0}, fn
+        {:\\, _meta, _}, {min, max} ->
+          {min, max + 1}
+
+        _, {min, max} ->
+          {min + 1, max + 1}
+      end)
+
+    Enum.to_list(min..max)
   end
 end
